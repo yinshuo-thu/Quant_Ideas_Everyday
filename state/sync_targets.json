@@ -1,0 +1,12 @@
+{
+  "notion": {
+    "mode": "page_create",
+    "parent_page": "OpenClaw / Quant Ideas",
+    "parent_page_id": "3203183fd8e1809cbe69fa8c6cf7e9b5"
+  },
+  "feishu": {
+    "mode": "message_notify",
+    "target": "current_feishu_chat",
+    "notes": "User confirmed Feishu does not need a doc/wiki write. Send message notification directly instead."
+  }
+}

@@ -3929,9 +3929,9 @@
     }
   ],
   "sync_status": {
-    "github": "待更新",
-    "notion": "待更新",
-    "feishu": "待更新",
-    "failure_reason": "待更新"
+    "github": "成功",
+    "notion": "成功",
+    "feishu": "成功",
+    "failure_reason": "Binance RSS 本轮返回空 XML、GitHub Search API 曾出现一次握手超时，均已做降级处理且未阻断主流程；后续可增加备用源与重试退避。"
   }
 }
