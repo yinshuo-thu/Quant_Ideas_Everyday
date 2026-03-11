@@ -19,7 +19,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, asdict
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
@@ -363,6 +363,69 @@ def inspiration(item: Item) -> dict[str, str]:
     }
 
 
+def filter_recent_items(items: list[Item], now: datetime, max_age_hours: int = 48) -> list[Item]:
+    recent: list[Item] = []
+    for item in items:
+        try:
+            published = datetime.fromisoformat(item.published_at)
+        except Exception:
+            recent.append(item)
+            continue
+        age = now - published
+        if timedelta(hours=-6) <= age <= timedelta(hours=max_age_hours):
+            recent.append(item)
+    return recent
+
+
+def build_readme_teaser(focus_items: list[Item]) -> str:
+    text = " ".join(item.title for item in focus_items[:3]).lower()
+    tags: list[str] = []
+    if "slippage-at-risk" in text or "liquidity risk" in text:
+        tags.append("SaR前瞻量化流动性风险")
+    if "algoxpert" in text or "overfitting" in text:
+        tags.append("反过拟合研究框架")
+    if "dex" in text or "dynamic fees" in text:
+        tags.append("DEX动态费率博弈")
+    if "order book" in text or "microstructure" in text:
+        tags.append("微结构信号新线索")
+    if not tags and focus_items:
+        title = focus_items[0].title
+        short = title if len(title) <= 28 else title[:28] + "…"
+        tags.append(short)
+    return " + ".join(tags[:2]) + "：今天最值得盯的量化线索"
+
+
+def update_readme(base: Path, dt_file: str, focus_items: list[Item]) -> Path:
+    reports_dir = base / "reports" / "github"
+    report_files = sorted(reports_dir.glob("*.md"), reverse=True)
+    teaser = build_readme_teaser(focus_items)
+    lines = [
+        "# Quant Ideas",
+        "",
+        "Daily Quant Ideas Digest repo mirror. New reports are generated under `reports/github/`.",
+        "",
+        "## Latest Report",
+        f"- [{dt_file}｜{teaser}](reports/github/{dt_file}.md)",
+        "",
+        "## Recent Reports",
+    ]
+    seen = set()
+    for path in report_files[:10]:
+        stem = path.stem
+        if stem in seen:
+            continue
+        seen.add(stem)
+        if stem == dt_file:
+            continue
+        lines.append(f"- [{stem}｜Daily Quant Ideas Digest](reports/github/{path.name})")
+    if len(lines) == 7:
+        lines.append("- 暂无历史报告")
+    lines.append("")
+    readme_path = base / "README.md"
+    readme_path.write_text("\n".join(lines), encoding="utf-8")
+    return readme_path
+
+
 def build_markdown(
     now: datetime,
     sources_covered: str,
@@ -523,6 +586,7 @@ def run(base: Path, run_time: datetime, github_status: str, notion_status: str, 
     ensure_dirs(base)
 
     raw_items, source_names, source_errors = collect_items(base)
+    raw_items = filter_recent_items(raw_items, run_time, max_age_hours=48)
     all_items = dedup(raw_items)
 
     for item in all_items:
@@ -590,6 +654,7 @@ def run(base: Path, run_time: datetime, github_status: str, notion_status: str, 
     # Exports for downstream sync
     (base / "export" / "notion" / f"{dt_file}.md").write_text(markdown, encoding="utf-8")
     (base / "export" / "feishu" / f"{dt_file}.md").write_text(markdown, encoding="utf-8")
+    readme_path = update_readme(base, dt_file, focus_items)
 
     state = {
         "last_run_at": run_time.isoformat(),
@@ -603,6 +668,7 @@ def run(base: Path, run_time: datetime, github_status: str, notion_status: str, 
     return {
         "markdown_path": str(md_path),
         "github_markdown_path": str(github_md_path),
+        "readme_path": str(readme_path),
         "json_path": str(json_path),
         "focus_count": len(focus_items),
         "dedup_count": len(all_items),
@@ -651,6 +717,7 @@ def main() -> None:
         source_error_count={len(result['source_errors'])}
         markdown_path={result['markdown_path']}
         github_markdown_path={result['github_markdown_path']}
+        readme_path={result['readme_path']}
         json_path={result['json_path']}
         """
     ).strip() + "\n"

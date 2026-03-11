@@ -131,49 +131,89 @@ def make_text_blocks(block_type: str, text: str) -> list[dict]:
     return blocks
 
 
+def make_list_block(block_type: str, text: str) -> dict:
+    chunks = chunk_text(text)
+    content = chunks[0] if chunks else text.strip()
+    return {
+        "object": "block",
+        "type": block_type,
+        block_type: {"rich_text": rich_text_from_text(content), "children": []},
+    }
+
+
 def build_blocks(markdown_text: str) -> list[dict]:
     blocks: list[dict] = []
     paragraph_buf: list[str] = []
+    list_stack: list[tuple[int, dict]] = []
+    first_content_written = False
+
+    def reset_list_stack() -> None:
+        nonlocal list_stack
+        list_stack = []
 
     def flush_paragraph() -> None:
-        nonlocal paragraph_buf, blocks
+        nonlocal paragraph_buf, blocks, first_content_written
         if not paragraph_buf:
             return
         text = " ".join(x.strip() for x in paragraph_buf if x.strip())
-        blocks.extend(make_text_blocks("paragraph", text))
+        if not first_content_written and text == "Daily Quant Ideas Digest":
+            blocks.extend(make_text_blocks("heading_1", text))
+        else:
+            blocks.extend(make_text_blocks("paragraph", text))
+        first_content_written = True
         paragraph_buf = []
 
     for raw_line in markdown_text.splitlines():
-        line = raw_line.rstrip()
+        line = raw_line.rstrip("\n")
         stripped = line.strip()
 
         if not stripped:
             flush_paragraph()
+            reset_list_stack()
             continue
 
         if stripped.startswith("### "):
             flush_paragraph()
+            reset_list_stack()
             blocks.extend(make_text_blocks("heading_3", stripped[4:].strip()))
+            first_content_written = True
             continue
         if stripped.startswith("## "):
             flush_paragraph()
+            reset_list_stack()
             blocks.extend(make_text_blocks("heading_2", stripped[3:].strip()))
+            first_content_written = True
             continue
         if stripped.startswith("# "):
             flush_paragraph()
+            reset_list_stack()
             blocks.extend(make_text_blocks("heading_1", stripped[2:].strip()))
-            continue
-        if re.match(r"^\d+\.\s+", stripped):
-            flush_paragraph()
-            content = re.sub(r"^\d+\.\s+", "", stripped)
-            blocks.extend(make_text_blocks("numbered_list_item", content))
-            continue
-        if re.match(r"^-\s+", stripped):
-            flush_paragraph()
-            content = re.sub(r"^-\s+", "", stripped)
-            blocks.extend(make_text_blocks("bulleted_list_item", content))
+            first_content_written = True
             continue
 
+        list_match = re.match(r"^(\s*)(-\s+|\d+\.\s+)(.+)$", line)
+        if list_match:
+            flush_paragraph()
+            indent_spaces = len(list_match.group(1).replace("\t", "    "))
+            level = indent_spaces // 2
+            marker = list_match.group(2)
+            content = list_match.group(3).strip()
+            block_type = "numbered_list_item" if re.match(r"^\d+\.\s+$", marker) else "bulleted_list_item"
+            block = make_list_block(block_type, content)
+
+            while list_stack and list_stack[-1][0] >= level:
+                list_stack.pop()
+
+            if list_stack:
+                parent = list_stack[-1][1]
+                parent[parent["type"]].setdefault("children", []).append(block)
+            else:
+                blocks.append(block)
+            list_stack.append((level, block))
+            first_content_written = True
+            continue
+
+        reset_list_stack()
         paragraph_buf.append(stripped)
 
     flush_paragraph()
