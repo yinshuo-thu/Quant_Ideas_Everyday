@@ -8,3 +8,7 @@
 - 2026-03-11: Added `reports/github/` as the dedicated GitHub-published digest folder.
 - 2026-03-11: Added automatic `README.md` latest-report links with teaser titles to improve repository discoverability.
 - 2026-03-11: Restricted source freshness to the last 48 hours to keep the digest timely.
+- 2026-03-12: Added explicit spacer markers between top focus items so Notion pages show clearer visual separation.
+- 2026-03-12: Upgraded key summaries to Chinese-first output: detailed Chinese for top items, concise Chinese for later sections.
+- 2026-03-12: Styled 今日结论 first-level headings as red + bold in Notion while keeping Markdown/GitHub readable.
+- 2026-03-12: Switched GitHub target repo to `Quant_Ideas_Everyday` and updated README links to absolute, URL-encoded GitHub URLs.

@@ -76,7 +76,7 @@ def chunk_text(text: str, n: int = MAX_TEXT) -> list[str]:
 _LINK_RE = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)|(https?://\S+)")
 
 
-def rich_text_from_text(text: str) -> list[dict]:
+def rich_text_from_text(text: str, *, bold: bool = False, color: str = "default") -> list[dict]:
     text = text.strip()
     if not text:
         return []
@@ -111,24 +111,36 @@ def rich_text_from_text(text: str) -> list[dict]:
         content = part["text"]["content"]
         link = part["text"].get("link")
         for chunk in chunk_text(content, MAX_TEXT):
-            entry = {"type": "text", "text": {"content": chunk}}
+            entry = {
+                "type": "text",
+                "text": {"content": chunk},
+                "annotations": {"bold": bold, "italic": False, "strikethrough": False, "underline": False, "code": False, "color": color},
+            }
             if link:
                 entry["text"]["link"] = link
             normalized.append(entry)
     return normalized
 
 
-def make_text_blocks(block_type: str, text: str) -> list[dict]:
+def make_text_blocks(block_type: str, text: str, *, bold: bool = False, color: str = "default") -> list[dict]:
     blocks = []
     for chunk in chunk_text(text):
         blocks.append(
             {
                 "object": "block",
                 "type": block_type,
-                block_type: {"rich_text": rich_text_from_text(chunk)},
+                block_type: {"rich_text": rich_text_from_text(chunk, bold=bold, color=color)},
             }
         )
     return blocks
+
+
+def make_spacer_block() -> dict:
+    return {
+        "object": "block",
+        "type": "paragraph",
+        "paragraph": {"rich_text": [{"type": "text", "text": {"content": "\u00A0"}}]},
+    }
 
 
 def make_list_block(block_type: str, text: str) -> dict:
@@ -170,6 +182,20 @@ def build_blocks(markdown_text: str) -> list[dict]:
         if not stripped:
             flush_paragraph()
             reset_list_stack()
+            continue
+
+        if stripped == "<!-- SPACER -->":
+            flush_paragraph()
+            reset_list_stack()
+            blocks.append(make_spacer_block())
+            continue
+
+        bold_only = re.match(r"^\*\*(.+)\*\*$", stripped)
+        if bold_only:
+            flush_paragraph()
+            reset_list_stack()
+            blocks.extend(make_text_blocks("paragraph", bold_only.group(1).strip(), bold=True, color="red"))
+            first_content_written = True
             continue
 
         if stripped.startswith("### "):

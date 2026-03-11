@@ -363,6 +363,48 @@ def inspiration(item: Item) -> dict[str, str]:
     }
 
 
+def chinese_core_summary(item: Item) -> str:
+    t = f"{item.title} {item.summary}".lower()
+    if "slippage-at-risk" in t or ("liquidity risk" in t and "perpetual" in t):
+        return "这篇文章提出 SaR（Slippage-at-Risk）框架，用当前订单簿微结构而不是历史收益分布，前瞻性地衡量永续合约市场的滑点与流动性尾部风险。它把滑点分位数、尾部期望滑点和总尾部滑点统一到一个实时风险口径里，并进一步考虑做市商集中度对市场脆弱性的放大作用。对量化研究来说，这相当于把盘口深度、清算压力、保险基金约束和执行冲击放进同一个观测框架，适合直接做交易风险监控与清算事件预警实验。"
+    if "algoxpert" in t or "overfitting" in t:
+        return "这篇文章聚焦量化策略从回测走向实盘时最常见的过拟合问题，提出了 IS / WFA / OOS 三段式研究框架。核心思想不是追求单点最优参数，而是寻找稳定参数区域，再通过滚动窗口、purge gap、参数锁定和风险护栏来检验策略是否经得住真实市场阶段切换。它对研究流程的直接价值很高，因为可以把‘研究规范’本身制度化，减少参数漂移、目标函数切换和事后调参带来的伪优势。"
+    if "dynamic fees" in t and "dex" in t:
+        return "这篇文章研究去中心化交易所之间围绕订单流展开的动态费率博弈，说明不同 DEX 会在吸引噪音交易与抑制套利之间切换定价策略。结果表明，竞争加剧通常会降低策略交易者的执行滑点，并改变噪音交易者在不同活跃度环境下的成交成本。对加密微结构研究来说，这给了一个很好的事件变量：费率机制变化本身就可能重塑订单流分配和执行质量。"
+    if "uncertainty quantification" in t or "selective prediction" in t:
+        return "这篇内容讨论的是不确定性量化与 selective prediction，重点在于如何在样本有限时给模型输出建立更稳健的风险控制边界。它的量化启发不在直接做交易预测，而在于把置信区间、风险保证和拒绝输出机制迁移到信号筛选、模型上线闸门和自动化研究流程中。换句话说，它更像是一个‘什么时候不该出手’的决策框架。"
+    if "adaptive llm decoding" in t:
+        return "这篇文章研究的是根据任务难度和剩余预算动态调整推理/采样策略，而不是固定 temperature 或 top-p。迁移到量化场景里，它对应的是‘按状态动态分配算力与决策带宽’：在高不确定阶段增加探索，在高置信阶段压缩计算和延迟。它更偏研究基础设施与在线决策调度，而不是直接生成 alpha。"
+    if "reinforcement" in t or "imitation" in t:
+        return "这篇内容围绕强化学习/模仿学习展开，核心价值在于把多阶段决策、延迟反馈和动态约束联合建模。放到交易场景里，更适合做执行策略、库存控制和时变风控，而不是单点价格预测。"
+    if any(k in t for k in ["order book", "microstructure", "order flow"]):
+        return "这篇内容围绕订单簿微结构与订单流展开，重点是解释盘口形态、撮合机制和成交冲击如何共同决定短期价格变化与执行成本。对量化研究而言，这类内容最值得转成盘口特征、冲击标签和分时执行约束。"
+    if item.kind == "新闻":
+        return "这条信息反映的是近 48 小时内市场结构、流动性或交易机制的变化。它的价值不只是新闻本身，而在于能否转成事件标签，并检验其对波动率、成交质量、跨资产相关性或风险偏好的影响。"
+    return "这条内容与量化研究主线相关，核心价值在于提供一个可快速验证的新假设：要么帮助改进特征/标签/模型设计，要么帮助理解交易成本、流动性或市场结构变化。建议优先抓取原文中的数据口径、评价指标和实验设定，再决定是否纳入实验池。"
+
+
+def chinese_brief_summary(item: Item) -> str:
+    t = f"{item.title} {item.summary}".lower()
+    if "slippage-at-risk" in t:
+        return "提出前瞻性的滑点风险框架，可直接用于永续合约流动性风险监控。"
+    if "algoxpert" in t or "overfitting" in t:
+        return "给出量化策略反过拟合的流程化框架，适合改造研究验收规范。"
+    if "dynamic fees" in t and "dex" in t:
+        return "讨论 DEX 动态费率竞争如何影响订单流分配与执行滑点。"
+    if "uncertainty quantification" in t or "selective prediction" in t:
+        return "讨论不确定性边界与拒绝输出机制，适合迁移到信号上线闸门。"
+    if "adaptive llm decoding" in t:
+        return "强调按状态动态分配推理预算，对研究基础设施与在线调度有启发。"
+    if any(k in t for k in ["order book", "microstructure", "order flow"]):
+        return "围绕订单簿/订单流微结构，适合提炼盘口特征与执行约束。"
+    if any(k in t for k in ["liquidity", "macro", "yield", "rate"]):
+        return "反映流动性或宏观预期变化，适合转成事件驱动观察标签。"
+    if item.kind == "新闻":
+        return "反映近期市场结构或交易机制变化，适合做事件标签跟踪。"
+    return "提供了新的研究线索，值得作为实验池候选。"
+
+
 def filter_recent_items(items: list[Item], now: datetime, max_age_hours: int = 48) -> list[Item]:
     recent: list[Item] = []
     for item in items:
@@ -399,13 +441,18 @@ def update_readme(base: Path, dt_file: str, focus_items: list[Item]) -> Path:
     reports_dir = base / "reports" / "github"
     report_files = sorted(reports_dir.glob("*.md"), reverse=True)
     teaser = build_readme_teaser(focus_items)
+    repo_base = "https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/"
+
+    def report_url(path_name: str) -> str:
+        return repo_base + urllib.parse.quote(path_name)
+
     lines = [
-        "# Quant Ideas",
+        "# Quant Ideas Everyday",
         "",
-        "Daily Quant Ideas Digest repo mirror. New reports are generated under `reports/github/`.",
+        "Daily Quant Ideas Digest repo mirror. New reports are published under `reports/github/`.",
         "",
         "## Latest Report",
-        f"- [{dt_file}｜{teaser}](reports/github/{dt_file}.md)",
+        f"- [{dt_file}｜{teaser}]({report_url(dt_file + '.md')})",
         "",
         "## Recent Reports",
     ]
@@ -417,7 +464,7 @@ def update_readme(base: Path, dt_file: str, focus_items: list[Item]) -> Path:
         seen.add(stem)
         if stem == dt_file:
             continue
-        lines.append(f"- [{stem}｜Daily Quant Ideas Digest](reports/github/{path.name})")
+        lines.append(f"- [{stem}｜Daily Quant Ideas Digest]({report_url(path.name)})")
     if len(lines) == 7:
         lines.append("- 暂无历史报告")
     lines.append("")
@@ -451,9 +498,9 @@ def build_markdown(
     if not focus_items:
         lines.append("- 今日暂无达到 4/5 的高质量条目，建议先看备选阅读并补充信息源。")
 
-    for item in focus_items[:7]:
+    for idx, item in enumerate(focus_items[:7], 1):
         ins = inspiration(item)
-        core = clean_summary(item.summary, max_len=320)
+        core = chinese_core_summary(item)
         reason = "与量化研究主线高度相关，可直接形成可验证实验或市场观察假设。"
         if item.kind == "新闻":
             reason = "可能改变波动率、流动性或交易成本，对短中期研究假设有直接影响。"
@@ -476,6 +523,8 @@ def build_markdown(
             f"  - 候选市场观察清单：{ins['watch']}",
             "",
         ]
+        if idx < len(focus_items[:7]):
+            lines += ["<!-- SPACER -->", ""]
 
     lines.append("## 二、Research Line")
     for topic in RESEARCH_TOPICS.keys():
@@ -485,7 +534,7 @@ def build_markdown(
             lines.append("- 暂无高相关更新")
         else:
             for item in bucket:
-                lines.append(f"- {item.title}｜{clean_summary(item.summary, 70)}｜{item.link}")
+                lines.append(f"- {item.title}｜{chinese_brief_summary(item)}｜{item.link}")
         lines.append("")
 
     lines.append("## 三、Markets Line")
@@ -496,7 +545,7 @@ def build_markdown(
             lines.append("- 暂无高相关更新")
         else:
             for item in bucket:
-                lines.append(f"- {item.title}｜{clean_summary(item.summary, 75)}｜{item.link}｜潜在交易含义：{implication_for_market(item)}")
+                lines.append(f"- {item.title}｜{chinese_brief_summary(item)}｜{item.link}｜潜在交易含义：{implication_for_market(item)}")
         lines.append("")
 
     lines.append("## 四、备选阅读（评分 3/5）")
@@ -504,26 +553,30 @@ def build_markdown(
         lines.append("- 暂无")
     else:
         for item in backup_items[:12]:
-            lines.append(f"- {item.title}｜有参考价值但与当前主线相关性中等。｜{item.link}")
+            lines.append(f"- {item.title}｜{chinese_brief_summary(item)}｜{item.link}")
     lines.append("")
 
     lines.append("## 五、今日结论")
-    lines.append("1. 今日最重要的 3 个新想法")
+    lines.append("**今日最重要的 3 个新想法**")
     top3 = focus_items[:3]
     if not top3:
         lines.append("- 暂无 4/5 以上信号，先补足信息源质量。")
     else:
         for idx, item in enumerate(top3, 1):
             lines.append(f"- 想法{idx}：围绕《{item.title}》提炼可验证研究假设，优先做小样本快速回测。")
+    lines += ["", "<!-- SPACER -->", ""]
 
-    lines.append("2. 未来 7 天最值得验证的 3 个实验方向")
+    lines.append("**未来 7 天最值得验证的 3 个实验方向**")
     lines += [
         "- 方向1：构建盘口斜率 + 成交冲击的短周期 alpha，验证在高波动时段的稳定性。",
         "- 方向2：将交易所规则/费用变化转成事件标签，检验对成交质量和容量的影响。",
         "- 方向3：在加密市场加入资金费率与未平仓量共振特征，做跨市场联动预测。",
+        "",
+        "<!-- SPACER -->",
+        "",
     ]
 
-    lines.append("3. 今日最值得持续跟踪的 3 个市场主题")
+    lines.append("**今日最值得持续跟踪的 3 个市场主题**")
     lines += [
         "- 主题1：全球流动性与利率预期对风险资产相关性的再定价。",
         "- 主题2：交易所费用、上新与合约规则变化带来的微结构冲击。",
