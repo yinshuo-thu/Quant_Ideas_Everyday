@@ -107,6 +107,7 @@ def ensure_dirs(base: Path) -> None:
     for rel in [
         "reports/daily",
         "reports/json",
+        "reports/github",
         "cache",
         "logs",
         "prompts",
@@ -542,6 +543,7 @@ def run(base: Path, run_time: datetime, github_status: str, notion_status: str, 
 
     dt_file = run_time.strftime("%Y-%m-%d - %H%M")
     md_path = base / "reports" / "daily" / f"{dt_file}.md"
+    github_md_path = base / "reports" / "github" / f"{dt_file}.md"
     json_path = base / "reports" / "json" / f"{dt_file}.json"
 
     sources_covered = "arXiv / RSS / Blogs / GitHub / WeChat Articles / Markets / Tools"
@@ -582,6 +584,7 @@ def run(base: Path, run_time: datetime, github_status: str, notion_status: str, 
     }
 
     md_path.write_text(markdown, encoding="utf-8")
+    github_md_path.write_text(markdown, encoding="utf-8")
     json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # Exports for downstream sync
@@ -599,6 +602,7 @@ def run(base: Path, run_time: datetime, github_status: str, notion_status: str, 
 
     return {
         "markdown_path": str(md_path),
+        "github_markdown_path": str(github_md_path),
         "json_path": str(json_path),
         "focus_count": len(focus_items),
         "dedup_count": len(all_items),
@@ -646,6 +650,7 @@ def main() -> None:
         focus_count={result['focus_count']}
         source_error_count={len(result['source_errors'])}
         markdown_path={result['markdown_path']}
+        github_markdown_path={result['github_markdown_path']}
         json_path={result['json_path']}
         """
     ).strip() + "\n"
