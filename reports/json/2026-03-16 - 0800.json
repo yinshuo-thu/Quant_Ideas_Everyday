@@ -1,0 +1,179 @@
+{
+  "generated_at": "2026-03-16T08:00:10.405886+08:00",
+  "timezone": "Asia/Singapore",
+  "sources": [
+    "WSJ Markets RSS",
+    "Investing.com RSS",
+    "Cointelegraph Markets",
+    "The Block RSS",
+    "GitHub Search API"
+  ],
+  "source_errors": [
+    "arXiv q-fin: parsed 0 items",
+    "arXiv stat.ML: parsed 0 items",
+    "arXiv cs.LG: parsed 0 items",
+    "Binance Announcements: no element found: line 1, column 0"
+  ],
+  "counts": {
+    "raw": 20,
+    "deduped": 20,
+    "focus": 6,
+    "backup": 0
+  },
+  "focus_items": [
+    {
+      "title": "rajveer100704/quant-research-lab",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-15T23:22:59+08:00",
+      "link": "https://github.com/rajveer100704/quant-research-lab",
+      "summary": "AI-powered quantitative trading research platform for alpha discovery, machine learning experimentation, and realistic strategy backtesting. Includes data pipelines, feature engineering, reinforcement learning agents, signal fusion, risk management, and a research dashboard for evaluating trading strategies. (⭐ 1)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 5,
+      "topic": "Alpha / Features / Signals"
+    },
+    {
+      "title": "vmohl/JaxMARL-HFT",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-16T06:58:46+08:00",
+      "link": "https://github.com/vmohl/JaxMARL-HFT",
+      "summary": "GPU-Accelerated Multi-Agent Reinforcement Learning for High-Frequency Trading (⭐ 44)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    },
+    {
+      "title": "Kejlemmn/Gym",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-16T06:53:10+08:00",
+      "link": "https://github.com/Kejlemmn/Gym",
+      "summary": "🏋️♂️ Build and scale reinforcement learning environments for large language models with NeMo Gym, designed for seamless integration and efficient training. (⭐ 0)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    },
+    {
+      "title": "mahi2406/ai-crypto-trading-bot",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-16T03:40:35+08:00",
+      "link": "https://github.com/mahi2406/ai-crypto-trading-bot",
+      "summary": "AI-powered cryptocurrency trading bot using Reinforcement Learning, technical indicators, and backtesting. (⭐ 0)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    },
+    {
+      "title": "fabian468/reinforcement-learning-trading",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-16T01:33:41+08:00",
+      "link": "https://github.com/fabian468/reinforcement-learning-trading",
+      "summary": " (⭐ 0)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    },
+    {
+      "title": "naimelhajj/forex-rl-trading-bot",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-15T16:00:30+08:00",
+      "link": "https://github.com/naimelhajj/forex-rl-trading-bot",
+      "summary": "Deep Reinforcement Learning Trading Bot for Forex Markets - DQN agent with advanced risk management, frame stacking, and adaptive position sizing (⭐ 1)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    }
+  ],
+  "research_items": [
+    {
+      "title": "rajveer100704/quant-research-lab",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-15T23:22:59+08:00",
+      "link": "https://github.com/rajveer100704/quant-research-lab",
+      "summary": "AI-powered quantitative trading research platform for alpha discovery, machine learning experimentation, and realistic strategy backtesting. Includes data pipelines, feature engineering, reinforcement learning agents, signal fusion, risk management, and a research dashboard for evaluating trading strategies. (⭐ 1)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 5,
+      "topic": "Alpha / Features / Signals"
+    },
+    {
+      "title": "vmohl/JaxMARL-HFT",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-16T06:58:46+08:00",
+      "link": "https://github.com/vmohl/JaxMARL-HFT",
+      "summary": "GPU-Accelerated Multi-Agent Reinforcement Learning for High-Frequency Trading (⭐ 44)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    },
+    {
+      "title": "Kejlemmn/Gym",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-16T06:53:10+08:00",
+      "link": "https://github.com/Kejlemmn/Gym",
+      "summary": "🏋️♂️ Build and scale reinforcement learning environments for large language models with NeMo Gym, designed for seamless integration and efficient training. (⭐ 0)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    },
+    {
+      "title": "mahi2406/ai-crypto-trading-bot",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-16T03:40:35+08:00",
+      "link": "https://github.com/mahi2406/ai-crypto-trading-bot",
+      "summary": "AI-powered cryptocurrency trading bot using Reinforcement Learning, technical indicators, and backtesting. (⭐ 0)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    },
+    {
+      "title": "fabian468/reinforcement-learning-trading",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-16T01:33:41+08:00",
+      "link": "https://github.com/fabian468/reinforcement-learning-trading",
+      "summary": " (⭐ 0)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    },
+    {
+      "title": "naimelhajj/forex-rl-trading-bot",
+      "kind": "GitHub",
+      "source": "GitHub Search API",
+      "published_at": "2026-03-15T16:00:30+08:00",
+      "link": "https://github.com/naimelhajj/forex-rl-trading-bot",
+      "summary": "Deep Reinforcement Learning Trading Bot for Forex Markets - DQN agent with advanced risk management, frame stacking, and adaptive position sizing (⭐ 1)",
+      "line": "research",
+      "raw_score": 1,
+      "score": 4,
+      "topic": "ML / RL / Imitation Learning"
+    }
+  ],
+  "market_items": [],
+  "backup_items": [],
+  "sync_status": {
+    "github": "成功",
+    "notion": "成功",
+    "feishu": "成功",
+    "failure_reason": "已完成24h时效过滤、去掉固定关注理由、差异化实用启发、Line内容增强与今日结论扩展。Binance RSS 若空返回则自动降级跳过，不阻断主流程。"
+  }
+}
