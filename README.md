@@ -3,9 +3,10 @@
 Daily Quant Ideas Digest repo mirror. New reports are published under `reports/github/`.
 
 ## Latest Report
-- [2026-03-21 - 0804｜eddiesung111/optimal-executi…：今天最值得盯的量化线索](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-21%20-%200804.md)
+- [2026-03-24 - 0947｜Mattbusel/FinRL_DeepSeek_Cry…：今天最值得盯的量化线索](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-24%20-%200947.md)
 
 ## Recent Reports
+- [2026-03-21 - 0804｜Daily Quant Ideas Digest](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-21%20-%200804.md)
 - [2026-03-20 - 0800｜Daily Quant Ideas Digest](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-20%20-%200800.md)
 - [2026-03-19 - 0800｜Daily Quant Ideas Digest](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-19%20-%200800.md)
 - [2026-03-18 - 0800｜Daily Quant Ideas Digest](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-18%20-%200800.md)
@@ -14,4 +15,3 @@ Daily Quant Ideas Digest repo mirror. New reports are published under `reports/g
 - [2026-03-15 - 0800｜Daily Quant Ideas Digest](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-15%20-%200800.md)
 - [2026-03-14 - 0800｜Daily Quant Ideas Digest](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-14%20-%200800.md)
 - [2026-03-13 - 0835｜Daily Quant Ideas Digest](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-13%20-%200835.md)
-- [2026-03-12 - 1500｜Daily Quant Ideas Digest](https://github.com/yinshuo-thu/Quant_Ideas_Everyday/blob/main/reports/github/2026-03-12%20-%201500.md)
