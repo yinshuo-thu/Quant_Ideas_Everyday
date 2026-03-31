@@ -1,0 +1,11 @@
+[quant_ideas_pipeline]
+generated_at=2026-03-31T08:01:16.766407+08:00
+base=/Users/yinshuo/.openclaw/workspace/quant_ideas
+raw_count=309
+dedup_count=283
+focus_count=7
+source_error_count=1
+markdown_path=/Users/yinshuo/.openclaw/workspace/quant_ideas/reports/daily/2026-03-31 - 0801.md
+github_markdown_path=/Users/yinshuo/.openclaw/workspace/quant_ideas/reports/github/2026-03-31 - 0801.md
+readme_path=/Users/yinshuo/.openclaw/workspace/quant_ideas/README.md
+json_path=/Users/yinshuo/.openclaw/workspace/quant_ideas/reports/json/2026-03-31 - 0801.json
